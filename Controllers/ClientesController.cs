@@ -1,6 +1,5 @@
 using System.Threading.Tasks.Dataflow;
 using System.Net.Http;
-//using System.Runtime.InteropServices.WindowsRuntime;
 using System.Net.Cache;
 using System.Reflection.Metadata;
 using System.Net;
@@ -30,15 +29,14 @@ namespace ApiPai.Controllers
 
         var clienteExistente = _context.Clientes.FirstOrDefault(c => c.Nome == cliente.Nome);
         var quadraCliente = _context.Clientes.FirstOrDefault(x=>x.QuadraELote==cliente.QuadraELote);
-            if ((clienteExistente != null)&&(quadraCliente != null))
-            {
-                return Conflict ("Cliente já existe");
-            }
-            else{  
-                _context.Add(cliente); 
-                _context.SaveChanges();
-                return CreatedAtAction(nameof(ObterPorID), new{id=cliente.Id},cliente);
-            }
+        if ((clienteExistente != null)&&(quadraCliente != null)){
+            return Conflict ("Cliente já existe");
+        }
+        else{  
+            _context.Add(cliente); 
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(ObterPorID), new{id=cliente.Id},cliente);
+        }
        
         
       }
@@ -65,22 +63,30 @@ namespace ApiPai.Controllers
       [HttpPut("{nome}")]
 
       public IActionResult Atualizar(string nome,Clientes cliente){ 
-          if (cliente == null)
-    {
-        return BadRequest("Dados de cliente inválidos");
-    }
+        if (cliente == null) {
+            return BadRequest("Dados de cliente inválidos");
+        }
         var atualizarClientes = _context.Clientes.FirstOrDefault(x=>x.Nome==nome); 
-         if(cliente == null)
-                return NotFound();
-            atualizarClientes.Nome=cliente.Nome; 
-            atualizarClientes.Telefone=  cliente.Telefone; 
-            atualizarClientes.QuadraELote=cliente.QuadraELote; 
-            atualizarClientes.Bairro=cliente.Bairro; 
+        if(cliente == null)
+            return NotFound();
+        atualizarClientes.Nome=cliente.Nome; 
+        atualizarClientes.Telefone=  cliente.Telefone; 
+        atualizarClientes.QuadraELote=cliente.QuadraELote; 
+        atualizarClientes.Bairro=cliente.Bairro; 
 
-            _context.Clientes.Update(atualizarClientes);
-            _context.SaveChanges(); 
+        _context.Clientes.Update(atualizarClientes);
+        _context.SaveChanges(); 
 
-            return Ok(atualizarClientes);
+        return Ok(atualizarClientes);
       }
+      [HttpDelete("{nome}")]
+        public IActionResult Deletar(string nome){ 
+            var deletarCliente = _context.Clientes.FirstOrDefault(x=>x.Nome==nome); 
+            if(deletarCliente==null)
+                return NotFound();
+            _context.Clientes.Remove(deletarCliente);
+            _context.SaveChanges();
+            return Ok();
+        }
     }
 }

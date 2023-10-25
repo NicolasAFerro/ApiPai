@@ -4,6 +4,7 @@ using ApiPai.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace apipai.Migrations
 {
     [DbContext(typeof(AppPaiContext))]
-    partial class AppPaiContextModelSnapshot : ModelSnapshot
+    [Migration("20231025175552_CriacaoTabelaServicos")]
+    partial class CriacaoTabelaServicos
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

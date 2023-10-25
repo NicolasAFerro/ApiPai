@@ -12,5 +12,7 @@ namespace ApiPai.Entities
         public string Telefone{get;set;} 
         public string QuadraELote{get;set;}
         public string Bairro{get;set;}
+
+        public List<Servicos> Servicos { get; set; }// lista de pedidos associados a um cliente.
     }
 }
