@@ -11,6 +11,6 @@ namespace ApiPai.Entities
         public string Nome{get;set;}
         public string Telefone{get;set;} 
         public string QuadraELote{get;set;}
-        public string Bairro{get;set}
+        public string Bairro{get;set;}
     }
 }
