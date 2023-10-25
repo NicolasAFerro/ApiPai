@@ -14,6 +14,14 @@ namespace ApiPai.Context
 
         }
         public DbSet<Clientes> Clientes{get;set;}
-        
+         protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Configurando um índice único na coluna Nome da entidade Clientes
+            modelBuilder.Entity<Clientes>()
+                .HasIndex(c => c.Nome)
+                .IsUnique();
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
