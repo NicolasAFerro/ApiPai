@@ -22,7 +22,7 @@ namespace apipai.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ApiPai.Entities.Clientes", b =>
+            modelBuilder.Entity("ApiPai.Entities.Cliente", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -36,7 +36,7 @@ namespace apipai.Migrations
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("QuadraELote")
                         .IsRequired()
@@ -48,13 +48,10 @@ namespace apipai.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Nome")
-                        .IsUnique();
-
                     b.ToTable("Clientes");
                 });
 
-            modelBuilder.Entity("ApiPai.Entities.Servicos", b =>
+            modelBuilder.Entity("ApiPai.Entities.Servico", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -65,7 +62,7 @@ namespace apipai.Migrations
                     b.Property<int>("Categoria")
                         .HasColumnType("int");
 
-                    b.Property<int>("ClientesId")
+                    b.Property<int>("ClienteId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Data")
@@ -80,23 +77,21 @@ namespace apipai.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientesId");
+                    b.HasIndex("ClienteId");
 
                     b.ToTable("Servicos");
                 });
 
-            modelBuilder.Entity("ApiPai.Entities.Servicos", b =>
+            modelBuilder.Entity("ApiPai.Entities.Servico", b =>
                 {
-                    b.HasOne("ApiPai.Entities.Clientes", "Clientes")
+                    b.HasOne("ApiPai.Entities.Cliente", null)
                         .WithMany("Servicos")
-                        .HasForeignKey("ClientesId")
+                        .HasForeignKey("ClienteId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Clientes");
                 });
 
-            modelBuilder.Entity("ApiPai.Entities.Clientes", b =>
+            modelBuilder.Entity("ApiPai.Entities.Cliente", b =>
                 {
                     b.Navigation("Servicos");
                 });

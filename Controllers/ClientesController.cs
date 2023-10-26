@@ -1,4 +1,4 @@
-using System.Threading.Tasks.Dataflow;
+ using System.Threading.Tasks.Dataflow;
 using System.Net.Http;
 using System.Net.Cache;
 using System.Reflection.Metadata;
@@ -25,7 +25,7 @@ namespace ApiPai.Controllers
         _context=context;
       }
       [HttpPost] 
-      public IActionResult Create([FromBody] Clientes cliente){ 
+      public IActionResult Create([FromBody] Cliente cliente){ 
         try{  
           var clienteExistente = _context.Clientes.FirstOrDefault(c => c.Nome == cliente.Nome);
           var quadraCliente = _context.Clientes.FirstOrDefault(x=>x.QuadraELote==cliente.QuadraELote);
@@ -66,7 +66,7 @@ namespace ApiPai.Controllers
 
       [HttpPut("{nome}")]
 
-      public IActionResult Atualizar(string nome,Clientes cliente){ 
+      public IActionResult Atualizar(string nome,Cliente cliente){ 
         if (cliente == null) {
             return BadRequest("Dados de cliente inválidos");
         }
@@ -93,4 +93,4 @@ namespace ApiPai.Controllers
             return Ok();
         }
     }
-}
+} 

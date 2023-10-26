@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ApiPai.Entities
 {
-    public class Clientes
+    public class Cliente
     {
         public int Id{get;set;}
         public string Nome{get;set;}
@@ -13,6 +13,6 @@ namespace ApiPai.Entities
         public string QuadraELote{get;set;}
         public string Bairro{get;set;}
 
-        public  List<Servicos> Servicos { get; set; }// lista de pedidos associados a um cliente.
+       //public  List<Servico> Servicos { get; set; }// lista de pedidos associados a um cliente.
     }
 }

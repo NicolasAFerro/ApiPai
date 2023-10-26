@@ -1,4 +1,4 @@
-using System.IO;
+ using System.IO;
 using System.Net;
 using System;
 using System.Collections.Generic;
@@ -28,27 +28,27 @@ namespace ApiPai.Controllers
             return Ok(servico);
       }
       [HttpPost] 
-        public IActionResult  Create([FromBody] Servicos servicos){ 
-          try{  
-            var cliente = _context.Clientes.FirstOrDefault(c=>c.Id==servicos.ClientesId);
-            var servico = new Servicos
-            {
-              ClientesId = servicos.ClientesId,
-              Valor = servicos.Valor,
-              Categoria = servicos.Categoria,
-              Data = servicos.Data,
-              Descricao = servicos.Descricao
+        public IActionResult  Create([FromBody] Servico servico){ 
+           try{
+              var cliente = _context.Clientes.FirstOrDefault(c => c.Id == servico.ClienteId);
+              var novoServico = new Servico
+              {
+                ClienteId = servico.ClienteId,
+                Valor = servico.Valor,
+                Categoria = servico.Categoria,
+                Data = servico.Data,
+                Descricao = servico.Descricao
+              };
+              _context.Servicos.Add(novoServico);
+              _context.SaveChanges();
 
-            
-            };
-            _context.Servicos.Add(servico); 
-            _context.SaveChanges();
+              // Se necessário, associar o serviço ao cliente aqui.
 
-            servico.Clientes = cliente;
-            return Ok(servico);
-          }catch(Exception ex){ 
-            return BadRequest($"Erro ao criar o serviço: {ex.Message}");
-          }
+              return Ok(servico);
+            }
+              catch (Exception ex){
+                  return BadRequest($"Erro ao criar o serviço: {ex.Message}");
+              }
 
         }
       [HttpDelete("{id}")] 
@@ -66,4 +66,4 @@ namespace ApiPai.Controllers
       
 
     }
-}
+} 
