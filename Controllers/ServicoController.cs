@@ -1,5 +1,5 @@
-//using Internal;
- using System.IO;
+
+using System.IO;
 using System.Net;
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,7 @@ namespace ApiPai.Controllers
            try{
               var cliente = _context.Clientes.FirstOrDefault(c => c.Nome == nomeCliente && c.QuadraELote == quadraCliente);
               servico.ClienteId = cliente.Id;
+              
              /*  var novoServico = new Servico
               {
                 ClienteId = servico.ClienteId,
@@ -48,7 +49,7 @@ namespace ApiPai.Controllers
             }
               catch (Exception ex){
                   return BadRequest($"Erro ao criar o serviço: {ex.Message}");
-                  Console.WriteLine(ex);
+                  //Console.WriteLine(ex);
               }
 
         }
