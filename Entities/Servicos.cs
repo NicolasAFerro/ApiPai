@@ -14,6 +14,6 @@ namespace ApiPai.Entities
         public TiposServico Categoria{get;set;}
         public DateTime Data{get;set;}
         public string Descricao{get;set;}  
-        public Clientes Clientes { get; set; }
+        public virtual Clientes Clientes { get; set; }
     }
 }

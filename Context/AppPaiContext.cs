@@ -23,10 +23,9 @@ namespace ApiPai.Context
                 .HasIndex(c => c.Nome)
                 .IsUnique();
 
-             // Configura a chave estrangeira para a entidade Servicos
-           modelBuilder.Entity<Servicos>()
-                .HasOne(s => s.Clientes) // Estabelece que um serviço pertence a um cliente
-                .WithMany() // Não especifica a coleção no cliente, pois você não deseja passar todas as propriedades do cliente
+            modelBuilder.Entity<Servicos>()
+                .HasOne(s => s.Clientes)
+                .WithMany()
                 .HasForeignKey(s => s.ClientesId);
         }
      

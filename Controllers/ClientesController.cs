@@ -26,17 +26,21 @@ namespace ApiPai.Controllers
       }
       [HttpPost] 
       public IActionResult Create([FromBody] Clientes cliente){ 
-
-        var clienteExistente = _context.Clientes.FirstOrDefault(c => c.Nome == cliente.Nome);
-        var quadraCliente = _context.Clientes.FirstOrDefault(x=>x.QuadraELote==cliente.QuadraELote);
-        if ((clienteExistente != null)&&(quadraCliente != null)){
-            return Conflict ("Cliente já existe");
+        try{  
+          var clienteExistente = _context.Clientes.FirstOrDefault(c => c.Nome == cliente.Nome);
+          var quadraCliente = _context.Clientes.FirstOrDefault(x=>x.QuadraELote==cliente.QuadraELote);
+          if ((clienteExistente != null)&&(quadraCliente != null)){
+              return Conflict ("Cliente já existe");
+          }
+          else{  
+              _context.Add(cliente); 
+              _context.SaveChanges();
+              return CreatedAtAction(nameof(ObterPorID), new{id=cliente.Id},cliente);
+          }
+        }catch(Exception ex){ 
+          return BadRequest($"Erro ao criar o serviço: {ex.Message}");
         }
-        else{  
-            _context.Add(cliente); 
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(ObterPorID), new{id=cliente.Id},cliente);
-        }
+       
        
         
       }
