@@ -27,7 +27,9 @@ namespace ApiPai.Controllers
       [HttpPost] 
       public IActionResult Create([FromBody] Cliente cliente){ 
         try{  
+          
           var clienteExistente = _context.Clientes.FirstOrDefault(c => c.Nome == cliente.Nome);
+          cliente.Nome = cliente.Nome.ToUpper();
           var quadraCliente = _context.Clientes.FirstOrDefault(x=>x.QuadraELote==cliente.QuadraELote);
           if ((clienteExistente != null)&&(quadraCliente != null)){
               return Conflict ("Cliente já existe");

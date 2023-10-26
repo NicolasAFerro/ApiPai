@@ -1,3 +1,4 @@
+//using Internal;
  using System.IO;
 using System.Net;
 using System;
@@ -28,26 +29,26 @@ namespace ApiPai.Controllers
             return Ok(servico);
       }
       [HttpPost] 
-        public IActionResult  Create([FromBody] Servico servico){ 
+        public IActionResult  Create([FromBody] Servico servico, string nomeCliente, string quadraCliente){ 
            try{
-              var cliente = _context.Clientes.FirstOrDefault(c => c.Id == servico.ClienteId);
-              var novoServico = new Servico
+              var cliente = _context.Clientes.FirstOrDefault(c => c.Nome == nomeCliente && c.QuadraELote == quadraCliente);
+              servico.ClienteId = cliente.Id;
+             /*  var novoServico = new Servico
               {
                 ClienteId = servico.ClienteId,
                 Valor = servico.Valor,
                 Categoria = servico.Categoria,
                 Data = servico.Data,
                 Descricao = servico.Descricao
-              };
-              _context.Servicos.Add(novoServico);
+              }; */
+              _context.Servicos.Add(servico);
               _context.SaveChanges();
-
-              // Se necessário, associar o serviço ao cliente aqui.
 
               return Ok(servico);
             }
               catch (Exception ex){
                   return BadRequest($"Erro ao criar o serviço: {ex.Message}");
+                  Console.WriteLine(ex);
               }
 
         }
@@ -59,10 +60,29 @@ namespace ApiPai.Controllers
             return Ok();
         }
       [HttpGet("ObterPorData")] 
-      public IActionResult ObterPorData(DateTime data) { 
-        var dataServico=_context.Servicos.Where(x=>x.Data.Date==data.Date);
-        return Ok();
+        public IActionResult ObterPorData(DateTime data) { 
+          var dataServico=_context.Servicos.Where(x=>x.Data.Date==data.Date);
+          return Ok(dataServico);
+        }
+
+      [HttpGet("ObterPorNomeCadastrado")] 
+       public IActionResult ObterPorNomeCadastrado(string nome, string quadraCliente) { 
+        try{ 
+          nome = nome.ToUpper();
+          var cliente = _context.Clientes.FirstOrDefault(c => c.Nome == nome && c.QuadraELote == quadraCliente);
+          if (cliente == null)
+            return NotFound();
+         
+          var servicos = _context.Servicos.Where(s => s.ClienteId == cliente.Id).ToList();
+          return Ok(servicos);
+        }
+        catch(Exception ex){ 
+          return BadRequest($"Erro ao criar o serviço: {ex.Message}");
+        }      
+        
       }
+
+      
       
 
     }
